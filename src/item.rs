@@ -45,20 +45,26 @@ impl Item {
     pub fn cast(&self) -> Option<ItemRef> {
         unsafe {
             Some(match self._type {
-                ItemType::Node => ItemRef::Node(transmute(self)),
-                ItemType::Way => ItemRef::Way(transmute(self)),
-                ItemType::Relation => ItemRef::Relation(transmute(self)),
-                ItemType::Area => ItemRef::Area(transmute(self)),
-                ItemType::Changeset => ItemRef::Changeset(transmute(self)),
-                ItemType::TagList => ItemRef::TagList(transmute(self)),
-                ItemType::WayNodeList => ItemRef::WayNodeList(transmute(self)),
-                ItemType::RelationMemberList => ItemRef::RelationMemberList(transmute(self)),
-                ItemType::RelationMemberListWithFullMembers => {
-                    ItemRef::RelationMemberList(transmute(self))
+                ItemType::Node => ItemRef::Node(transmute::<&Item, &Node>(self)),
+                ItemType::Way => ItemRef::Way(transmute::<&Item, &Way>(self)),
+                ItemType::Relation => ItemRef::Relation(transmute::<&Item, &Relation>(self)),
+                ItemType::Area => ItemRef::Area(transmute::<&Item, &Area>(self)),
+                ItemType::Changeset => ItemRef::Changeset(transmute::<&Item, &Changeset>(self)),
+                ItemType::TagList => ItemRef::TagList(transmute::<&Item, &TagList>(self)),
+                ItemType::WayNodeList => {
+                    ItemRef::WayNodeList(transmute::<&Item, &WayNodeList>(self))
                 }
-                ItemType::OuterRing => ItemRef::OuterRing(transmute(self)),
-                ItemType::InnerRing => ItemRef::InnerRing(transmute(self)),
-                ItemType::ChangesetDiscussion => ItemRef::ChangesetDiscussion(transmute(self)),
+                ItemType::RelationMemberList => {
+                    ItemRef::RelationMemberList(transmute::<&Item, &RelationMemberList>(self))
+                }
+                ItemType::RelationMemberListWithFullMembers => {
+                    ItemRef::RelationMemberList(transmute::<&Item, &RelationMemberList>(self))
+                }
+                ItemType::OuterRing => ItemRef::OuterRing(transmute::<&Item, &OuterRing>(self)),
+                ItemType::InnerRing => ItemRef::InnerRing(transmute::<&Item, &InnerRing>(self)),
+                ItemType::ChangesetDiscussion => {
+                    ItemRef::ChangesetDiscussion(transmute::<&Item, &ChangesetDiscussion>(self))
+                }
                 _ => return None,
             })
         }

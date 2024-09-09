@@ -161,6 +161,12 @@ impl OwnedTagList {
     }
 }
 
+impl Default for OwnedTagList {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl From<&TagList> for OwnedTagList {
     /// Copy a TagList's memory into an owned `Vec`
     fn from(tag_list: &TagList) -> Self {
